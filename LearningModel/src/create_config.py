@@ -4,11 +4,11 @@ config = {
     #Neural network configuration
     'activation'    : 'SigmoidFunction',
     'alpha'         : 0.5,
-    'layers'        : [10, 6, 4],
+    'layers'        : [ 5, 4],
     'inputs'        : 10,
     'max_iteration' : 2000000,
-    'eps'           : 10,
-    'rate'          : 0.9,
+    'eps'           : 15,
+    'rate'          : 0.5,
     'path_to_train' : 'train_data/neural_dataset',
     #convert 
     'path_to_string'   :   'train_data/string_vectors_train',

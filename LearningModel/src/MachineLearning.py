@@ -117,7 +117,7 @@ class BackPropagation:
                 self.calculateError(OutputPatterns[pattern])
                 self.calculateUpdateWeigth(InputPatterns[pattern])
                 self.setNewWeigth()
-            if countPrint > 100:
+            if countPrint > 1:
                 print(Itr, Error)
                 countPrint = 0
             else:
