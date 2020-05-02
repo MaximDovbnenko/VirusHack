@@ -1,17 +1,30 @@
-
+import json
 
 config = {
     #Neural network configuration
     'activation'    : 'SigmoidFunction',
-    'alpha'         : 0.9
-    'layers'        : [2, 4, 1],
-    'inputs'        : 3,
+    'alpha'         : 0.5,
+    'layers'        : [10, 6, 4],
+    'inputs'        : 10,
     'max_iteration' : 2000000,
-    'eps'           : 0.01,
+    'eps'           : 10,
+    'rate'          : 0.9,
     'path_to_train' : 'train_data/neural_dataset',
+    #convert 
+    'path_to_string'   :   'train_data/string_vectors_train',
+    'path_to_out_data' :   'train_data/neural_dataset',
+    'path_to_out_test' :   'train_data/neural_dataset_test',
     #word2vec learn configuration
-    'path_to_dic'   : 'train_data/doc2vec_train_data.txt',
+    'default_path_train_data'   : 'train_data/doc2vec_train_data.txt',
+    'default_models_path'       : 'out_models/doc2vec_model',
     'epochs'        : 100,
-    'vector_size'   : 20,
+    'vector_size'   : 10
 
 }
+
+def create():
+    out_config = open('config/global_config', 'w')
+    out_config.write(json.dumps(config, sort_keys=True, indent=4))
+
+if __name__ == "__main__":
+    create()

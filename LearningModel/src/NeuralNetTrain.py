@@ -21,11 +21,13 @@ class LoadTrainPattern:
         pass
 
 class NeuralNetTrain:
-    def __init__(self, layer_list, input_size, sigmoid_param, rate, data_train):
+    def __init__(self, layer_list, input_size, sigmoid_param, rate, max_iter ,eps,data_train):
         self.LearningRate = rate
         self.DataTrain = data_train
         self.LayerList = layer_list
         self.InputSize = input_size
+        self.MaxIter = max_iter
+        self.Eps = eps
         self.SigmoidParam = sigmoid_param
         self.NeuralNet = NeuralNet(SigmoidFunction(self.SigmoidParam), self.InputSize, self.LayerList)
         self.BP = BackPropagation(self.NeuralNet, E_Distance())
@@ -33,7 +35,8 @@ class NeuralNetTrain:
         pass
 
     def TrainModel(self):
-        self.BP.startProcess(200000,1,self.DataTrain.InputList, self.DataTrain.OutputList)
+        print("start train procces...")
+        self.BP.startProcess(self.MaxIter,self.Eps,self.DataTrain.InputList, self.DataTrain.OutputList)
         pass
 
     def SaveModel(self):

@@ -1,0 +1,21 @@
+{
+    "activation": "SigmoidFunction",
+    "alpha": 0.5,
+    "default_models_path": "out_models/doc2vec_model",
+    "default_path_train_data": "train_data/doc2vec_train_data.txt",
+    "epochs": 100,
+    "eps": 10,
+    "inputs": 10,
+    "layers": [
+        10,
+        6,
+        4
+    ],
+    "max_iteration": 2000000,
+    "path_to_out_data": "train_data/neural_dataset",
+    "path_to_out_test": "train_data/neural_dataset_test",
+    "path_to_string": "train_data/string_vectors_train",
+    "path_to_train": "train_data/neural_dataset",
+    "rate": 0.9,
+    "vector_size": 10
+}
