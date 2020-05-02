@@ -136,7 +136,14 @@ class BackPropagation:
         
         Model = {
             'offset' : self.Offsets,
-            'weigth' : self.neuralNetArray
+            'weigth' : self.neuralNetArray,
+            'inputs' : self.ThisNet.NetInputSize,
+            'layers' : self.ThisNet.LayerList,
+            'activation' : [ 
+                self.ThisNet.ActivationFunction.Type,
+                self.ThisNet.ActivationFunction.Alpha
+            ]
+            
         }
         FileModel = open('out_models/neural_net_model', 'w')
         FileModel.write(json.dumps(Model, sort_keys=True, indent=4))

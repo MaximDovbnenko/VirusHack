@@ -49,10 +49,11 @@ class Layer:
 class NeuralNet:
 
     
-    def __init__(self, Activation, InputSize, LayerList):
+    def __init__(self, Activation = None, InputSize = 0, LayerList = []):
         self.ActivationFunction = Activation
         self.NetInputSize = InputSize
         self.Length = len(LayerList)
+        self.LayerList = LayerList
         self.Layers = []
         for layer in range(self.Length):
             if layer == 0 :
@@ -106,22 +107,42 @@ class NeuralNet:
                 tmp_layer_out[i] = -1
         self.OUTPUT = tmp_layer_out
         return tmp_layer_out
-    def createNetFromFile(self, file_name):
-        w_file = open(file_name, 'r')
-        w_data = w_file.read()
-        w_matrix = json.loads(w_data) 
-        print(len(w_matrix[0]), len(w_matrix[1]), len(w_matrix[2]))
-        return
+    def LoadModel(self):
+        model_file = open('out_models/neural_net_model', 'r')
+        data_model = model_file.read()
+        json_model = json.loads(data_model) 
+        offset = json_model['offset']
+        weigth = json_model['weigth']
+        activation = json_model['activation'][0]
+        alpha      = float(json_model['activation'][1])
+        layers_list = json_model['layers']
+        input_size  = json_model['inputs']
+        NewNet = None
+        if activation == 'SigmoidFunction':
+            NewNet = NeuralNet(SigmoidFunction(alpha), input_size, layers_list)
+        i = 0
+        j = 0
+        k = 0
+        for layer in NewNet.Layers:
+            for neuron in layer.Neurons:
+                neuron.Offset = offset[i][j]
+                neuron.Weigth = weigth[i][j]
+                j += 1
+            i += 1
+            j = 0
+        
+        return NewNet
     def setW(self, matrix):
         layers  = matrix[0]
         neurons = matrix[1]
         weidth  = matrix[2]
         LayerList = [layers, neurons, weidth]
         #CurrentNet = NeuralNet(SigmoidFunction(1), )
-        
+
 class SigmoidFunction:    
     def __init__ (self, alpha):
         self.Alpha = alpha
+        self.Type  = 'SigmoidFunction'
         
     def calculate(self, value):
         return (1.0 / (1.0 + math.exp(-(value * self.Alpha))))
@@ -132,6 +153,7 @@ class SigmoidFunction:
 class BipolarSigmoidFunction:
     def __init__ (self, alpha):
         self.Alpha = alpha
+        self.Type  = 'BipolarSigmoidFunction'
     def calculate(self, value):
         return ( ( 2 / ( 1 + math.exp( -self.Alpha * value ) ) ) - 1 )
     def derivative(self, value):
