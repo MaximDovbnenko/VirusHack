@@ -17,10 +17,10 @@ class ConvertStringToVector:
             self.Serialize()
             pass
         def Serialize(self):
-           
+            print("OK")
             out_result = []
             out_test   = []
-            model_file = open(self.PathToFile , 'r')
+            model_file = open(self.PathToFile , 'r', encoding="utf-8")
             data_model = model_file.read()
             json_model = json.loads(data_model) 
             length = len(json_model)
@@ -29,7 +29,13 @@ class ConvertStringToVector:
             count = 0
             for line in json_model:
                 tmp_string_array = line[0].split(' ')
-                vector = self.Doc2VecModel.infer_vector(tmp_string_array)
+                tmp_array_filtred = []
+                for val in tmp_string_array:
+                    if val != '':
+                        tmp_array_filtred.append(val)
+               
+                vector = self.Doc2VecModel.infer_vector(list(tmp_array_filtred))
+                print(vector)
                 list_vector = []
                 for val in vector:
                     list_vector.append(float(val))

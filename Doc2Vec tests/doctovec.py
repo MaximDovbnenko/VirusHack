@@ -42,7 +42,7 @@ def create_tagged_document(list_of_list_of_words):
 default_data_path = "data/data.txt"
 data = load_data_from_file(default_data_path)
 train_data = list(create_tagged_document(data))   
-print(train_data)
+
 
 '''
 mydict = corpora.Dictionary()
@@ -50,12 +50,20 @@ bow_corpus = BoWCorpus(default_data_path, dictionary = mydict)
 
 '''
 
-model = gensim.models.doc2vec.Doc2Vec(vector_size = 20, min_count = 2, epochs = 140)
+model = gensim.models.doc2vec.Doc2Vec(vector_size = 5, min_count = 2, epochs = 140)
 model.build_vocab(train_data)
 
 model.train(train_data, total_examples=model.corpus_count, epochs=model.epochs)
 
 print(model.infer_vector(['искомых']))
+
+
+model.save('test')
+print("----------------------------")
+model = gensim.models.doc2vec.Doc2Vec.load('test')
+
+print(model.infer_vector(['искомых']))
+
 #dataset = api.load("data/data.txt")
 
 #print(dictionary.token2id)

@@ -17,7 +17,7 @@ config = {
     #word2vec learn configuration
     'default_path_train_data'   : 'train_data/doc2vec_train_data.txt',
     'default_models_path'       : 'out_models/doc2vec_model',
-    'epochs'        : 100,
+    'epochs'        : 10,
     'vector_size'   : 10
 
 }

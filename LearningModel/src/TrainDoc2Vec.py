@@ -27,7 +27,9 @@ class Doc2VecTrainModel:
         tmp_data = []
         for line in split_data:
             if len(line) > 30:
-                tmp_data.append(line)
+                tok = line.split(' ')
+                for t in tok:
+                    tmp_data.append(t)
         print("create " + str(len(tmp_data)) + " lines")
         print("convert data in doc2vec format...")
         self.TrainData = list(self.create_tagged_document(tmp_data))
