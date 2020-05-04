@@ -23,6 +23,7 @@ def main(operation):
         ConvertString = ConvertStringToVector(global_config)
 
 
+
 def TestLearningNet(config):
     NN_TrainData = LoadTrainPattern(config['path_to_train'])
     NN_TestData  = LoadTrainPattern(config['path_to_out_test'])

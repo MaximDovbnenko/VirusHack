@@ -1,11 +1,12 @@
 from gensim.utils import simple_preprocess
 from gensim import corpora
 from smart_open   import smart_open
-#import nltk
-#nltk.download('stopwords')
+import nltk
+from nltk.tokenize import word_tokenize
+nltk.download('punkt')
 import gensim
 import gensim.downloader as api
-
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 import os
 
 
@@ -28,43 +29,59 @@ def load_data_from_file(file_path):
     for line in file:
         tokens = line.split('.')
         for token in tokens: 
-            ret_array.append(token)
+
+            for t in token.split(' '):
+                ret_array.append(t)
     return ret_array
 
-def create_tagged_document(list_of_list_of_words):
-    for i, list_of_words in enumerate(list_of_list_of_words):
-        yield gensim.models.doc2vec.TaggedDocument(list_of_words, [i])
+data = ["I love machine learning. Its awesome.",
+        "I love coding in python",
+        "I love building chatbots",
+        "they chat amagingly well"]
 
+tagged_data = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in enumerate(data)]
 
-
-#train_data = list(create_tagged_document(data))   
-
-default_data_path = "data/data.txt"
-data = load_data_from_file(default_data_path)
-train_data = list(create_tagged_document(data))   
-
-
+max_epochs = 100
+vec_size = 20
+alpha = 0.025
 '''
-mydict = corpora.Dictionary()
-bow_corpus = BoWCorpus(default_data_path, dictionary = mydict)
+model = Doc2Vec(size=vec_size,
+                alpha=alpha, 
+                min_alpha=0.00025,
+                min_count=2,
+                dm =1,
+                workers=1,
+                negative=0)
+  
+model.build_vocab(tagged_data)
+model.random.seed(0)
+for epoch in range(max_epochs):
+    #print('iteration {0}'.format(epoch))
+    model.random.seed(0)
+    model.train(tagged_data,
+                total_examples=model.corpus_count,
+                epochs=model.iter)
+    # decrease the learning rate
+    model.alpha -= 0.0002
+    # fix the learning rate, no decay
+    model.min_alpha = model.alpha
+test_data = word_tokenize("I love chatbots".lower())
+model.save("d2v.model")
+print("Model Saved")
+model.random.seed(42)
 
+v1 = model.infer_vector(test_data)
+print(v1)
 '''
+model= Doc2Vec.load("d2v.model")
+model.init_sims(replace=True)
+#to find the vector of a document which is not in training data
+test_data = word_tokenize("I love chatbots".lower())
+print(test_data)
+model.random.seed(42)
+for i in range(10):
+    v1 = model.infer_vector(test_data)
+    print(v1)
+print(v1)
 
-model = gensim.models.doc2vec.Doc2Vec(vector_size = 5, min_count = 2, epochs = 140)
-model.build_vocab(train_data)
-
-model.train(train_data, total_examples=model.corpus_count, epochs=model.epochs)
-
-print(model.infer_vector(['искомых']))
-
-
-model.save('test')
-print("----------------------------")
-model = gensim.models.doc2vec.Doc2Vec.load('test')
-
-print(model.infer_vector(['искомых']))
-
-#dataset = api.load("data/data.txt")
-
-#print(dictionary.token2id)
 

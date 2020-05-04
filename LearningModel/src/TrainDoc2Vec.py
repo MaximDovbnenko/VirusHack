@@ -27,9 +27,7 @@ class Doc2VecTrainModel:
         tmp_data = []
         for line in split_data:
             if len(line) > 30:
-                tok = line.split(' ')
-                for t in tok:
-                    tmp_data.append(t)
+                tmp_data.append(line)
         print("create " + str(len(tmp_data)) + " lines")
         print("convert data in doc2vec format...")
         self.TrainData = list(self.create_tagged_document(tmp_data))
@@ -40,7 +38,12 @@ class Doc2VecTrainModel:
         print("strat doc2vec train ( vector size " + str(self.out_vector_size) + " epochs " + str(self.max_epochs) + " )")
         self.Doc2VecModel = gensim.models.doc2vec.Doc2Vec(vector_size = self.out_vector_size, min_count = 2, epochs = self.max_epochs )
         self.Doc2VecModel.build_vocab(self.TrainData)
-        self.Doc2VecModel.train(self.TrainData, total_examples=self.Doc2VecModel.corpus_count, epochs=self.Doc2VecModel.epochs)
+        for epoch in range(self.max_epochs):
+            print('iteration {0}'.format(epoch))
+            self.Doc2VecModel.random.seed(0)
+            self.Doc2VecModel.train(self.TrainData, total_examples=self.Doc2VecModel.corpus_count, epochs=self.Doc2VecModel.epochs)
+            self.Doc2VecModel.alpha -= 0.0002
+            self.Doc2VecModel.min_alpha = self.Doc2VecModel.alpha
         print("end doc2vec train...")
         print("save model in " + self.default_models_path)
         self.SaveModel()

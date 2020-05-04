@@ -3,11 +3,11 @@ import json
 config = {
     #Neural network configuration
     'activation'    : 'SigmoidFunction',
-    'alpha'         : 0.5,
-    'layers'        : [ 5, 4],
-    'inputs'        : 10,
-    'max_iteration' : 2000000,
-    'eps'           : 15,
+    'alpha'         : 0.4,
+    'layers'        : [4, 4],
+    'inputs'        : 20,
+    'max_iteration' : 200,
+    'eps'           : 5,
     'rate'          : 0.5,
     'path_to_train' : 'train_data/neural_dataset',
     #convert 
@@ -17,8 +17,10 @@ config = {
     #word2vec learn configuration
     'default_path_train_data'   : 'train_data/doc2vec_train_data.txt',
     'default_models_path'       : 'out_models/doc2vec_model',
-    'epochs'        : 10,
-    'vector_size'   : 10
+    'epochs'        : 5,
+    'vector_size'   : 20,
+    #result config
+    'out_index_file': 'result/temp.html'
 
 }
 
