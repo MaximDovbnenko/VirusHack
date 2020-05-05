@@ -49,6 +49,9 @@ class ConvertStringToVector:
                 list_vector = []
                 for val in vector:
                     list_vector.append((float(val) * 10))
+                    if line[1][0] == 0 and line[1][1] == 0 and line[1][2] == 0 and line[1][3] == 0:
+                        continue
+                    print(line[1])
                     if count <= train_len:
                         out_result.append(
                             [list_vector, line[1]]

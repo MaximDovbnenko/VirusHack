@@ -15,7 +15,7 @@ class E_Distance:
 class BackPropagation:
     def __init__(self, NET, DistanceFunction):
         self.ThisNet   = NET
-        self.Momentum  = 0.3      
+        self.Momentum  = 0.9     
         self.LearnRate = 0.9
         self.OptimizationFunction = DistanceFunction
         self.neuralNetArray = []
